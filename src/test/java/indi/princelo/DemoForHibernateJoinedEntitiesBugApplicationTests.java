@@ -5,6 +5,7 @@ import indi.princelo.entity.BillExt;
 import indi.princelo.entity.Order;
 import indi.princelo.repository.BillRepository;
 import indi.princelo.repository.OrderRepository;
+import javassist.util.proxy.ProxyFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class DemoForHibernateJoinedEntitiesBugApplicationTests {
         order.getItems().size(); //size call
         Bill billFetchAfterSizeCall = billRepository.findById("1");
         //A javassist proxy instance of Bill comes out. BillExt is expected
+        assertTrue(ProxyFactory.isProxyClass(billFetchAfterSizeCall.getClass()));
         assertFalse(billFetchAfterSizeCall instanceof BillExt);
     }
 
